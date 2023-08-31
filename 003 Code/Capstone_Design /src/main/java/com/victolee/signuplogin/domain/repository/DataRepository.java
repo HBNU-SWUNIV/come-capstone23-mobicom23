@@ -8,5 +8,6 @@ import java.util.Optional;
 
 public interface DataRepository extends JpaRepository<DataEntity, Long> {
     Optional<DataEntity> findByEmail(String email);
+    List<DataEntity> findAllByEmail(String email);
 
 }
