@@ -3,13 +3,11 @@ import com.victolee.signuplogin.JwT.JwtTokenProvider;
 import com.victolee.signuplogin.domain.User;
 import com.victolee.signuplogin.domain.UserAndData;
 import com.victolee.signuplogin.domain.entity.DataEntity;
-import com.victolee.signuplogin.domain.entity.UserEntity;
 import com.victolee.signuplogin.domain.repository.DataRepository;
 import com.victolee.signuplogin.domain.repository.UserRepository;
 import com.victolee.signuplogin.service.DataService;
 import com.victolee.signuplogin.service.MemberService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -24,6 +22,7 @@ public class UserController {
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
     private final UserRepository userRepository;
+    private final DataRepository dataRepository;
     private final DataService dataService;
     private final MemberService memberService;
 
@@ -44,6 +43,8 @@ public class UserController {
 //                .build()).getId();
 //    }
     @CrossOrigin(origins = "http://172.20.10.7:*")
+
+    //회원가입
     @PostMapping("/join")
     public ResponseEntity<String> join(@RequestBody Map<String, String> user) {
         if (memberService.isEmailAlreadyExists(user.get("email"))) {
@@ -51,15 +52,15 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(message);
         }
         userRepository.save(User.builder()
-            .email(user.get("email"))
-            .password(passwordEncoder.encode(user.get("password")))
-            .roles(Collections.singletonList("ROLE_USER"))
-            .build()).getId();
+                .email(user.get("email"))
+                .password(passwordEncoder.encode(user.get("password")))
+                .roles(Collections.singletonList("ROLE_USER"))
+                .build()).getId();
         String response = "POST 요청이 성공적으로 처리되었습니다.";
         return ResponseEntity.ok(response);
     }
 
-// 로그인
+    // 로그인
     @PostMapping("/login")
     public String login(@RequestBody Map<String, String> user) {
         User member = userRepository.findByEmail(user.get("email"))
@@ -70,11 +71,14 @@ public class UserController {
         return jwtTokenProvider.createToken(member.getUsername(), member.getRoles());
     }
 
+    //모든 유저의 로그인 정보 확인
     @GetMapping("/list")
     public ResponseEntity<List<User>> getAllUsers() {
         List<User> users = memberService.getAllUsers(); // Corrected line
         return ResponseEntity.ok(users);
     }
+
+    //해당 email유저의 로그인 정보 확인
     @GetMapping("/list/{email}")
     public ResponseEntity<User> getUserByEmail(@PathVariable String email) {
         User user = memberService.getUserByEmail(email);
@@ -85,28 +89,40 @@ public class UserController {
 
         return ResponseEntity.ok(user);
     }
-    @GetMapping("/getDataEmail/{email}")
-    public ResponseEntity<List<UserAndData>> getUsersDataByEmail(@PathVariable String email) {
-        List<User> users = userRepository.findAllByEmail(email);
 
-        if (users.isEmpty()) {
+    //해당 email유저의 데이터 정보 확인
+    @GetMapping("/getData/{email}")
+    public ResponseEntity<List<DataEntity>> getDuplicatedUsersByEmail(@PathVariable String email) {
+        List<DataEntity> duplicatedUsers = dataRepository.findAllByEmail(email);
+
+        if (duplicatedUsers.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
 
-        List<UserAndData> usersAndData = new ArrayList<>();
-        for (User user : users) {
-            DataEntity data = dataService.getUserByEmail(user.getEmail());
-            if (data != null) {
-                UserAndData userAndData = new UserAndData(user, data);
-                usersAndData.add(userAndData);
-            }
-        }
+        return ResponseEntity.ok(duplicatedUsers);
+    }
 
-        if (usersAndData.isEmpty()) {
+    //해당 email유저의 로그인 정보와 데이터 정보 확인
+    @GetMapping("/getUserAllData/{email}" )
+    public ResponseEntity<Map<String, Object>> getUserDataAndDuplicatedUsersByEmail(@PathVariable String email) {
+        User user = memberService.getUserByEmail(email);
+        List<DataEntity> duplicatedUsers = dataRepository.findAllByEmail(email);
+
+        Map<String, Object> response = new HashMap<>();
+
+        if (user == null && duplicatedUsers.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
 
-        return ResponseEntity.ok(usersAndData);
+        if (user != null) {
+            response.put("user", user);
+        }
+
+        if (!duplicatedUsers.isEmpty()) {
+            response.put("duplicatedUsers", duplicatedUsers);
+        }
+
+        return ResponseEntity.ok(response);
     }
 }
 
