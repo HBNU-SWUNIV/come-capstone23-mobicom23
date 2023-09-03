@@ -9,21 +9,23 @@
 /* Begin PBXBuildFile section */
 		DD82D4822AA477F5002695F0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD82D4812AA477F5002695F0 /* AppDelegate.swift */; };
 		DD82D4842AA477F5002695F0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD82D4832AA477F5002695F0 /* SceneDelegate.swift */; };
-		DD82D4862AA477F5002695F0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD82D4852AA477F5002695F0 /* ViewController.swift */; };
+		DD82D4862AA477F5002695F0 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD82D4852AA477F5002695F0 /* LoginViewController.swift */; };
 		DD82D4892AA477F5002695F0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DD82D4872AA477F5002695F0 /* Main.storyboard */; };
 		DD82D48B2AA477F8002695F0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DD82D48A2AA477F8002695F0 /* Assets.xcassets */; };
 		DD82D48E2AA477F8002695F0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DD82D48C2AA477F8002695F0 /* LaunchScreen.storyboard */; };
+		DD82D4962AA48131002695F0 /* BluetoothSerial.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD82D4952AA48131002695F0 /* BluetoothSerial.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		DD82D47E2AA477F5002695F0 /* Frontend-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Frontend-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD82D4812AA477F5002695F0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DD82D4832AA477F5002695F0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		DD82D4852AA477F5002695F0 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		DD82D4852AA477F5002695F0 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		DD82D4882AA477F5002695F0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		DD82D48A2AA477F8002695F0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DD82D48D2AA477F8002695F0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DD82D48F2AA477F8002695F0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DD82D4952AA48131002695F0 /* BluetoothSerial.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothSerial.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,7 +60,8 @@
 			children = (
 				DD82D4812AA477F5002695F0 /* AppDelegate.swift */,
 				DD82D4832AA477F5002695F0 /* SceneDelegate.swift */,
-				DD82D4852AA477F5002695F0 /* ViewController.swift */,
+				DD82D4952AA48131002695F0 /* BluetoothSerial.swift */,
+				DD82D4852AA477F5002695F0 /* LoginViewController.swift */,
 				DD82D4872AA477F5002695F0 /* Main.storyboard */,
 				DD82D48A2AA477F8002695F0 /* Assets.xcassets */,
 				DD82D48C2AA477F8002695F0 /* LaunchScreen.storyboard */,
@@ -138,8 +141,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DD82D4862AA477F5002695F0 /* ViewController.swift in Sources */,
+				DD82D4862AA477F5002695F0 /* LoginViewController.swift in Sources */,
 				DD82D4822AA477F5002695F0 /* AppDelegate.swift in Sources */,
+				DD82D4962AA48131002695F0 /* BluetoothSerial.swift in Sources */,
 				DD82D4842AA477F5002695F0 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
