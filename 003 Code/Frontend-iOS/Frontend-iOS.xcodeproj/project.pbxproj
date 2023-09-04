@@ -14,6 +14,12 @@
 		DD82D48B2AA477F8002695F0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DD82D48A2AA477F8002695F0 /* Assets.xcassets */; };
 		DD82D48E2AA477F8002695F0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DD82D48C2AA477F8002695F0 /* LaunchScreen.storyboard */; };
 		DD82D4962AA48131002695F0 /* BluetoothSerial.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD82D4952AA48131002695F0 /* BluetoothSerial.swift */; };
+		DD82D4982AA60C6B002695F0 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD82D4972AA60C6B002695F0 /* SignUpViewController.swift */; };
+		DD82D49A2AA60C96002695F0 /* SerialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD82D4992AA60C96002695F0 /* SerialViewController.swift */; };
+		DD82D49C2AA60CCC002695F0 /* ScanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD82D49B2AA60CCC002695F0 /* ScanViewController.swift */; };
+		DD82D49E2AA60CE6002695F0 /* ScanTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD82D49D2AA60CE6002695F0 /* ScanTableViewCell.swift */; };
+		DD82D4A02AA60CFE002695F0 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD82D49F2AA60CFE002695F0 /* SettingViewController.swift */; };
+		DD82D4A22AA60D15002695F0 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD82D4A12AA60D15002695F0 /* MapViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +32,12 @@
 		DD82D48D2AA477F8002695F0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DD82D48F2AA477F8002695F0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DD82D4952AA48131002695F0 /* BluetoothSerial.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothSerial.swift; sourceTree = "<group>"; };
+		DD82D4972AA60C6B002695F0 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
+		DD82D4992AA60C96002695F0 /* SerialViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SerialViewController.swift; sourceTree = "<group>"; };
+		DD82D49B2AA60CCC002695F0 /* ScanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanViewController.swift; sourceTree = "<group>"; };
+		DD82D49D2AA60CE6002695F0 /* ScanTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanTableViewCell.swift; sourceTree = "<group>"; };
+		DD82D49F2AA60CFE002695F0 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
+		DD82D4A12AA60D15002695F0 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +74,12 @@
 				DD82D4832AA477F5002695F0 /* SceneDelegate.swift */,
 				DD82D4952AA48131002695F0 /* BluetoothSerial.swift */,
 				DD82D4852AA477F5002695F0 /* LoginViewController.swift */,
+				DD82D4972AA60C6B002695F0 /* SignUpViewController.swift */,
+				DD82D4992AA60C96002695F0 /* SerialViewController.swift */,
+				DD82D49B2AA60CCC002695F0 /* ScanViewController.swift */,
+				DD82D49D2AA60CE6002695F0 /* ScanTableViewCell.swift */,
+				DD82D49F2AA60CFE002695F0 /* SettingViewController.swift */,
+				DD82D4A12AA60D15002695F0 /* MapViewController.swift */,
 				DD82D4872AA477F5002695F0 /* Main.storyboard */,
 				DD82D48A2AA477F8002695F0 /* Assets.xcassets */,
 				DD82D48C2AA477F8002695F0 /* LaunchScreen.storyboard */,
@@ -142,9 +160,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				DD82D4862AA477F5002695F0 /* LoginViewController.swift in Sources */,
+				DD82D49C2AA60CCC002695F0 /* ScanViewController.swift in Sources */,
+				DD82D49E2AA60CE6002695F0 /* ScanTableViewCell.swift in Sources */,
+				DD82D4A22AA60D15002695F0 /* MapViewController.swift in Sources */,
 				DD82D4822AA477F5002695F0 /* AppDelegate.swift in Sources */,
+				DD82D49A2AA60C96002695F0 /* SerialViewController.swift in Sources */,
+				DD82D4A02AA60CFE002695F0 /* SettingViewController.swift in Sources */,
 				DD82D4962AA48131002695F0 /* BluetoothSerial.swift in Sources */,
 				DD82D4842AA477F5002695F0 /* SceneDelegate.swift in Sources */,
+				DD82D4982AA60C6B002695F0 /* SignUpViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
