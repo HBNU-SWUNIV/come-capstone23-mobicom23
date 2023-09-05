@@ -37,9 +37,6 @@ class MapViewController: UIViewController, CLLocationManagerDelegate{
         // 위치 보기 설정
         mapView.showsUserLocation = true
         
-//        setAnnotation(latitudeValue: 36.3526616, longitudeValue: 127.298719, delta: 0.1, title: "와리가리", subtitle: "2023-06-12")
-//        setAnnotation(latitudeValue: 36.3547360, longitudeValue: 127.298575, delta: 0.1, title: "차간주행", subtitle: "2023-07-01")
-        // Add multiple markers to the map
         let marker1Coordinate = CLLocationCoordinate2D(latitude: 36.3526616, longitude: 127.298719)
         let marker1 = CustomAnnotation(title: "Marker 1", subtitle: "Marker 1 Subtitle", coordinate: marker1Coordinate)
         markers.append(marker1)

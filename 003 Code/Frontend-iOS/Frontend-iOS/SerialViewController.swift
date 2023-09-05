@@ -6,8 +6,11 @@
 //
 
 import UIKit
+import CoreLocation
 
-class SerialViewController: UIViewController, BluetoothSerialDelegate {
+
+
+class SerialViewController: UIViewController, BluetoothSerialDelegate, CLLocationManagerDelegate {
     
     @IBOutlet weak var serialMessageLabel1: UILabel!
     @IBOutlet weak var serialMessageLabel2: UILabel!
@@ -22,8 +25,10 @@ class SerialViewController: UIViewController, BluetoothSerialDelegate {
     @IBOutlet weak var dangerousWarigariDriveCount: UILabel!
     @IBOutlet weak var dangerousWarigariDriveLabel: UILabel!
     
+    var locationManger = CLLocationManager()
     
-    
+    var latitude: Double = 0.0
+    var longitude: Double = 0.0
     
     var dangerousBetweenCount = 0
     var dangerousBetweenDrive = 0
@@ -33,17 +38,30 @@ class SerialViewController: UIViewController, BluetoothSerialDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        // 델리게이트 설정
+        locationManger.delegate = self
+        // 거리 정확도 설정
+        locationManger.desiredAccuracy = kCLLocationAccuracyBest
+        // 사용자에게 허용 받기 alert 띄우기
+        locationManger.requestWhenInUseAuthorization()
+  
+        // 아이폰 설정에서의 위치 서비스가 켜진 상태라면
+        if CLLocationManager.authorizationStatus() == .authorizedAlways || CLLocationManager.authorizationStatus() == .authorizedWhenInUse {
+            print("위치 서비스 On 상태")
+         locationManger.startUpdatingLocation() //위치 정보 받아오기 시작
+            print(locationManger.location?.coordinate as Any)
+        } else {
+            print("위치 서비스 Off 상태")
+        }
+        
         // BluetoothSerial.swift 파일에 있는 Bluetooth Serial인 serial을 초기화합니다.
         serial = BluetoothSerial.init()
 //        sendRequest()
-        
         // POST 요청 보내기
-        sendPostRequest(content: "hello")
-        
+//        sendPostRequest(email: "sujin@gmail.com", content: "난폭운전 종류: 차간주행", latitude: latitude, longitude: longitude)
         // GET 요청 보내기
         sendGetRequest()
         print("hi")
-
     }
     
     /// scan 버튼이 클릭되면 호출되는 메서드입니다.
@@ -138,12 +156,12 @@ class SerialViewController: UIViewController, BluetoothSerialDelegate {
         dangerousWarigariCount += 1
         
         if dangerousBetweenCount > 5 {
-            sendPostRequest(content: "난폭운전 종류: 차간주행")
+            sendPostRequest(email: "email", content: "난폭운전 종류: 차간주행", latitude: latitude, longitude: longitude)
             dangerousBetweenDrive += 1
             dangerousBetweenCount = 0
         }
         if dangerousWarigariCount > 5 {
-            sendPostRequest(content: "난폭운전 종류: 와리가리")
+            sendPostRequest(email: "email", content: "난폭운전 종류: 와리가리", latitude: latitude, longitude: longitude)
             dangerousWarigariDrive += 1
             dangerousWarigariCount = 0
         }
@@ -156,11 +174,25 @@ class SerialViewController: UIViewController, BluetoothSerialDelegate {
         dangerousBetweenDriveCount.text = String(dangerousBetweenDrive)
         dangerousWarigariDriveCount.text = String(dangerousWarigariDrive)
     }
+    
+    // 위치 정보 계속 업데이트 -> 위도 경도 받아옴
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        print("didUpdateLocations")
+        if let location = locations.first {
+            latitude = location.coordinate.latitude
+            longitude = location.coordinate.longitude
+        }
+    }
+    
+    // 위도 경도 받아오기 에러
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print(error)
+    }
 
 //    // API 요청 보내기
     // GET 요청 예시
     func sendGetRequest() {
-        guard let url = URL(string: "http://172.20.10.7:8080/list/123@gmail.com") else {
+        guard let url = URL(string: "http://121.159.178.99:8080/list/sujin@gmail.com") else {
             print("URL 생성에 실패했습니다.")
             return
         }
@@ -173,9 +205,24 @@ class SerialViewController: UIViewController, BluetoothSerialDelegate {
                 print("요청 실패: \(error.localizedDescription)")
                 return
             }
-
-            if let data = data, let responseString = String(data: data, encoding: .utf8) {
-                print("응답 받음: \(responseString)")
+            
+            if let data = data {
+                do {
+                    if let jsonArray = try JSONSerialization.jsonObject(with: data, options: []) as? [[String: Any]] {
+                        print(jsonArray)
+                        for jsonObject in jsonArray {
+                            if let desiredValue = jsonObject["email"] as? String {
+                                print("원하는 값: \(desiredValue)")
+                            }
+                        }
+                    }
+//                    let decoder = JSONDecoder()
+//                    let myData = try decoder.decode(UserInfo.self, from: data)
+//                    print(myData)
+//                    print("원하는 값: \(myData.email)")
+                } catch {
+                    print("JSON 파싱 실패: \(error.localizedDescription)")
+                }
             }
         }
 
@@ -183,40 +230,32 @@ class SerialViewController: UIViewController, BluetoothSerialDelegate {
     }
 
     // POST 요청 예시
-    func sendPostRequest(content: String) {
-        guard let url = URL(string: "http://172.20.10.7:8080/data/endpost") else {
+    func sendPostRequest(email: String, content: String, latitude: Double, longitude: Double) {
+        guard let url = URL(string: "http://121.159.178.99:8080/data/endpost") else {
             print("URL 생성에 실패했습니다.")
             return
         }
-//        guard let url = URL(string: "http://172.17.33.117:8080/user/signup1") else {
-//            print("URL 생성에 실패했습니다.")
-//            return
-//        }
         
-        var formatter = DateFormatter()
+        let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd HH:mm"
-        var current_date_string = formatter.string(from: Date())
+        let current_date_string = formatter.string(from: Date())
 
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         
         // HTTP 요청에 필요한 데이터 설정 (요청 본문)
         let jsonData: [String: Any] = [
-            "email":"sujin@gmail.com",
+            "email":email,
             "type":content,
             "time":current_date_string,
-            "latitude" : 36.3526616,
-            "longitude" : 127.298719
+            "latitude" : latitude,
+            "longitude" : longitude
         ]
 
         request.httpBody = try? JSONSerialization.data(withJSONObject: jsonData)
         
         // HTTP 요청 헤더 설정 (필요시)
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-//        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-//
-//        let requestBody = content
-//        request.httpBody = requestBody.data(using: .utf8)
 
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
             if let error = error {
@@ -232,3 +271,16 @@ class SerialViewController: UIViewController, BluetoothSerialDelegate {
         task.resume()
     }
 }
+
+//struct UserInfo: Codable {
+//    var enabled: Int
+//    var password: String
+//    var roles: Array<String>
+//    var username: String
+//    var accountNonExpired: Int
+//    var email: String
+//    var authorities: Array<String>
+//    var accountNonLocked: Int
+//    var credentialsNonExpired: Int
+//    var id: Int
+//}
