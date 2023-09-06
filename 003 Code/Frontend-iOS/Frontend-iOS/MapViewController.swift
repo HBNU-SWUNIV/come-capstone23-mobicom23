@@ -36,6 +36,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate{
         locationManager.startUpdatingLocation()
         // 위치 보기 설정
         mapView.showsUserLocation = true
+        sendGetRequest(email: GlobalVariable.shared.userEmail!)
         
         let marker1Coordinate = CLLocationCoordinate2D(latitude: 36.3526616, longitude: 127.298719)
         let marker1 = CustomAnnotation(title: "Marker 1", subtitle: "Marker 1 Subtitle", coordinate: marker1Coordinate)
@@ -47,6 +48,50 @@ class MapViewController: UIViewController, CLLocationManagerDelegate{
         
         mapView.addAnnotations(markers)
     }
+    
+    func sendGetRequest(email: String) {
+        guard let url = URL(string: "http://172.17.155.63:8080/getData/\(email)") else {
+            print("URL 생성에 실패했습니다.")
+            return
+        }
+
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            if let error = error {
+                print("요청 실패: \(error.localizedDescription)")
+                return
+            }
+            
+            if let data = data {
+                do {
+                    if let jsonArray = try JSONSerialization.jsonObject(with: data, options: []) as? [[String: Any]] {
+                        print(jsonArray)
+                        for jsonObject in jsonArray {
+                            let latitude = jsonObject["latitude"] as? Double
+                            let longitude = jsonObject["longitude"] as? Double
+                            let time = jsonObject["time"] as? String
+                            if let type = jsonObject["type"] as? String {
+                                let markerCoordinate = CLLocationCoordinate2D(latitude: latitude!, longitude: longitude!)
+                                self.markers.append(CustomAnnotation(title: type, subtitle: time, coordinate: markerCoordinate))
+                            }
+                            
+                        }
+                    }
+//                    let decoder = JSONDecoder()
+//                    let myData = try? JSONDecoder().decode(LocationData.self, from: data)
+//                    print(myData)
+//                    print("원하는 값: \(myData?.time)")
+                } catch {
+                    print("JSON 파싱 실패: \(error.localizedDescription)")
+                }
+            }
+        }
+
+        task.resume()
+    }
+
     
 //    // 위도와 경도, 스팬(영역 폭)을 입력받아 지도에 표시
 //    func goLocation(latitudeValue: CLLocationDegrees,
@@ -167,4 +212,14 @@ class CustomAnnotation: NSObject, MKAnnotation {
         self.subtitle = subtitle
         self.coordinate = coordinate
     }
+}
+
+struct LocationData: Codable {
+    let id: Int?
+    let email: String?
+    let latitude: Double?
+    let longitude: Double?
+    let type: String?
+    let time: String?
+    // 다른 키에 대한 속성 추가 가능
 }

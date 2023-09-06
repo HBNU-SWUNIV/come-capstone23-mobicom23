@@ -20,6 +20,7 @@
 		DD82D49E2AA60CE6002695F0 /* ScanTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD82D49D2AA60CE6002695F0 /* ScanTableViewCell.swift */; };
 		DD82D4A02AA60CFE002695F0 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD82D49F2AA60CFE002695F0 /* SettingViewController.swift */; };
 		DD82D4A22AA60D15002695F0 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD82D4A12AA60D15002695F0 /* MapViewController.swift */; };
+		DD82D4A62AA83B0A002695F0 /* GlobalVariable.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD82D4A52AA83B0A002695F0 /* GlobalVariable.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +39,7 @@
 		DD82D49D2AA60CE6002695F0 /* ScanTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanTableViewCell.swift; sourceTree = "<group>"; };
 		DD82D49F2AA60CFE002695F0 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		DD82D4A12AA60D15002695F0 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		DD82D4A52AA83B0A002695F0 /* GlobalVariable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalVariable.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,6 +74,7 @@
 			children = (
 				DD82D4812AA477F5002695F0 /* AppDelegate.swift */,
 				DD82D4832AA477F5002695F0 /* SceneDelegate.swift */,
+				DD82D4A52AA83B0A002695F0 /* GlobalVariable.swift */,
 				DD82D4952AA48131002695F0 /* BluetoothSerial.swift */,
 				DD82D4852AA477F5002695F0 /* LoginViewController.swift */,
 				DD82D4972AA60C6B002695F0 /* SignUpViewController.swift */,
@@ -168,6 +171,7 @@
 				DD82D4A02AA60CFE002695F0 /* SettingViewController.swift in Sources */,
 				DD82D4962AA48131002695F0 /* BluetoothSerial.swift in Sources */,
 				DD82D4842AA477F5002695F0 /* SceneDelegate.swift in Sources */,
+				DD82D4A62AA83B0A002695F0 /* GlobalVariable.swift in Sources */,
 				DD82D4982AA60C6B002695F0 /* SignUpViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

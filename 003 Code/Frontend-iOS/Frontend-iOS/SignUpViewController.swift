@@ -25,12 +25,12 @@ class SignUpViewController: UIViewController {
         if NewPWTextField.text == ""{
             print("no")
         }
-//        sendPostRequest(content: "oo")
+        sendPostRequest(email: NewIDTextField.text!, pw: NewPWTextField.text!)
     }
     
     // POST 요청 예시
-    func sendPostRequest(content: String) {
-        guard let url = URL(string: "http://121.159.178.99:8080/join") else {
+    func sendPostRequest(email: String, pw: String) {
+        guard let url = URL(string: "http://172.17.155.63:8080/join") else {
             print("URL 생성에 실패했습니다.")
             return
         }
@@ -40,8 +40,8 @@ class SignUpViewController: UIViewController {
         
         // HTTP 요청에 필요한 데이터 설정 (요청 본문)
         let jsonData: [String: Any] = [
-            "name": "omj",
-            "age": 25
+            "email": email,
+            "password": pw
         ]
 
         request.httpBody = try? JSONSerialization.data(withJSONObject: jsonData)
