@@ -16,14 +16,15 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var SignUpButton: UIButton!
     
     @IBAction func Login(_ sender: UIButton){
-//        sendGetRequest()
+        GlobalVariable.shared.userEmail = IDTextField.text
+        sendGetRequest(email:IDTextField.text ?? "")
         
         let vcSerial = self.storyboard?.instantiateViewController(withIdentifier: "UITabBarController")
         self.navigationController?.pushViewController(vcSerial!, animated: true)
     }
     
-    func sendGetRequest() {
-        guard let url = URL(string: "http://172.17.43.229:8080/login") else {
+    func sendGetRequest(email: String) {
+        guard let url = URL(string: "http://172.17.155.63:8080/list/\(email)") else {
             print("URL 생성에 실패했습니다.")
             return
         }

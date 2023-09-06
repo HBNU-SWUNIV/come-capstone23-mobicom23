@@ -156,12 +156,12 @@ class SerialViewController: UIViewController, BluetoothSerialDelegate, CLLocatio
         dangerousWarigariCount += 1
         
         if dangerousBetweenCount > 5 {
-            sendPostRequest(email: "email", content: "난폭운전 종류: 차간주행", latitude: latitude, longitude: longitude)
+            sendPostRequest(email: GlobalVariable.shared.userEmail!, content: "난폭운전 종류: 차간주행", latitude: latitude, longitude: longitude)
             dangerousBetweenDrive += 1
             dangerousBetweenCount = 0
         }
         if dangerousWarigariCount > 5 {
-            sendPostRequest(email: "email", content: "난폭운전 종류: 와리가리", latitude: latitude, longitude: longitude)
+            sendPostRequest(email: GlobalVariable.shared.userEmail!, content: "난폭운전 종류: 와리가리", latitude: latitude, longitude: longitude)
             dangerousWarigariDrive += 1
             dangerousWarigariCount = 0
         }
@@ -192,7 +192,7 @@ class SerialViewController: UIViewController, BluetoothSerialDelegate, CLLocatio
 //    // API 요청 보내기
     // GET 요청 예시
     func sendGetRequest() {
-        guard let url = URL(string: "http://121.159.178.99:8080/list/sujin@gmail.com") else {
+        guard let url = URL(string: "http://172.17.155.63:8080/list/") else {
             print("URL 생성에 실패했습니다.")
             return
         }
@@ -231,7 +231,7 @@ class SerialViewController: UIViewController, BluetoothSerialDelegate, CLLocatio
 
     // POST 요청 예시
     func sendPostRequest(email: String, content: String, latitude: Double, longitude: Double) {
-        guard let url = URL(string: "http://121.159.178.99:8080/data/endpost") else {
+        guard let url = URL(string: "http://172.17.155.63:8080/data/endpost") else {
             print("URL 생성에 실패했습니다.")
             return
         }
@@ -273,14 +273,14 @@ class SerialViewController: UIViewController, BluetoothSerialDelegate, CLLocatio
 }
 
 //struct UserInfo: Codable {
-//    var enabled: Int
-//    var password: String
-//    var roles: Array<String>
-//    var username: String
-//    var accountNonExpired: Int
-//    var email: String
-//    var authorities: Array<String>
-//    var accountNonLocked: Int
-//    var credentialsNonExpired: Int
-//    var id: Int
+//    var id: Int?
+//    var email: String?
+//    var password: String?
+//    var roles: [String]?
+//    var accountNonExpired: Bool?
+//    var accountNonLocked: Bool?
+//    var credentialsNonExpired: Bool?
+//    var authorities: [String]?
+//    var username: String?
+//    var enabled: Bool?
 //}
