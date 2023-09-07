@@ -13,8 +13,6 @@ class MapViewController: UIViewController, CLLocationManagerDelegate{
     
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var notice: UILabel!
-    @IBOutlet weak var locationInfo1: UILabel!
-    @IBOutlet weak var locationInfo2: UILabel!
     
     var check = false
     var locationManager = CLLocationManager()
@@ -24,9 +22,6 @@ class MapViewController: UIViewController, CLLocationManagerDelegate{
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        
-//        locationInfo1.text = ""
-//        locationInfo2.text = ""
         locationManager.delegate = self
         // 정확도를 최고로 설정
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
@@ -39,18 +34,16 @@ class MapViewController: UIViewController, CLLocationManagerDelegate{
         sendGetRequest(email: GlobalVariable.shared.userEmail!)
         
         let marker1Coordinate = CLLocationCoordinate2D(latitude: 36.3526616, longitude: 127.298719)
-        let marker1 = CustomAnnotation(title: "Marker 1", subtitle: "Marker 1 Subtitle", coordinate: marker1Coordinate)
+        let marker1 = CustomAnnotation(title: "난폭운전 종류: 차간주행", subtitle: "2023-08-05 11:47", coordinate: marker1Coordinate)
         markers.append(marker1)
         
         let marker2Coordinate = CLLocationCoordinate2D(latitude: 36.3547360, longitude: 127.298575)
-        let marker2 = CustomAnnotation(title: "Marker 2", subtitle: "Marker 2 Subtitle", coordinate: marker2Coordinate)
+        let marker2 = CustomAnnotation(title: "난폭운전 종류: 와리가리", subtitle: "2023-08-21 17:56", coordinate: marker2Coordinate)
         markers.append(marker2)
-        
-        mapView.addAnnotations(markers)
     }
     
     func sendGetRequest(email: String) {
-        guard let url = URL(string: "http://172.17.155.63:8080/getData/\(email)") else {
+        guard let url = URL(string: "http://121.159.178.99:8080/getData/\(email)") else {
             print("URL 생성에 실패했습니다.")
             return
         }
@@ -76,8 +69,8 @@ class MapViewController: UIViewController, CLLocationManagerDelegate{
                                 let markerCoordinate = CLLocationCoordinate2D(latitude: latitude!, longitude: longitude!)
                                 self.markers.append(CustomAnnotation(title: type, subtitle: time, coordinate: markerCoordinate))
                             }
-                            
                         }
+                        self.mapView.addAnnotations(self.markers)
                     }
 //                    let decoder = JSONDecoder()
 //                    let myData = try? JSONDecoder().decode(LocationData.self, from: data)
@@ -92,57 +85,6 @@ class MapViewController: UIViewController, CLLocationManagerDelegate{
         task.resume()
     }
 
-    
-//    // 위도와 경도, 스팬(영역 폭)을 입력받아 지도에 표시
-//    func goLocation(latitudeValue: CLLocationDegrees,
-//                    longtudeValue: CLLocationDegrees,
-//                    delta span: Double) -> CLLocationCoordinate2D {
-//        let pLocation = CLLocationCoordinate2DMake(latitudeValue, longtudeValue)
-//        let spanValue = MKCoordinateSpan(latitudeDelta: span, longitudeDelta: span)
-//        let pRegion = MKCoordinateRegion(center: pLocation, span: spanValue)
-//        mapView.setRegion(pRegion, animated: true)
-//        return pLocation
-//    }
-    
-//    // 특정 위도와 경도에 핀 설치하고 핀에 타이틀과 서브 타이틀의 문자열 표시
-//    func setAnnotation(latitudeValue: CLLocationDegrees,
-//                       longitudeValue: CLLocationDegrees,
-//                       delta span :Double,
-//                       title strTitle: String,
-//                       subtitle strSubTitle:String){
-//        let annotation = MKPointAnnotation()
-//        annotation.coordinate = goLocation(latitudeValue: latitudeValue, longtudeValue: longitudeValue, delta: span)
-//        annotation.title = strTitle
-//        annotation.subtitle = strSubTitle
-//        mapView.addAnnotation(annotation)
-//    }
-    
-    // 위치 정보에서 국가, 지역, 도로를 추출하여 레이블에 표시
-//    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-//        let pLocation = locations.last
-//        _ = goLocation(latitudeValue: (pLocation?.coordinate.latitude)!,
-//                   longtudeValue: (pLocation?.coordinate.longitude)!,
-//                   delta: 0.01)
-//        CLGeocoder().reverseGeocodeLocation(pLocation!, completionHandler: {(placemarks, error) -> Void in
-//            let pm = placemarks!.first
-//            let country = pm!.country
-//            var address: String = ""
-//            if country != nil {
-//                address = country!
-//            }
-//            if pm!.locality != nil {
-//                address += " "
-//                address += pm!.locality!
-//            }
-//            if pm!.thoroughfare != nil {
-//                address += " "
-//                address += pm!.thoroughfare!
-//            }
-////            self.locationInfo1.text = "현재 위치"
-////            self.locationInfo2.text = address
-//        })
-//        locationManager.stopUpdatingLocation()
-//    }
     // MARK: - CLLocationManagerDelegate
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
@@ -173,26 +115,6 @@ class MapViewController: UIViewController, CLLocationManagerDelegate{
         }
     }
     
-//    // 세크먼트 컨트롤을 선택하였을 때 호출
-//    @IBAction func sgChangeLocation(_ sender: UISegmentedControl) {
-//        if sender.selectedSegmentIndex == 0 {
-//            // "현재 위치" 선택 - 현재 위치 표시
-//            self.locationInfo1.text = ""
-//            self.locationInfo2.text = ""
-//            locationManager.startUpdatingLocation()
-//        } else if sender.selectedSegmentIndex == 1 {
-//            // "물왕저수지 정통밥집" 선택 - 핀을 설치하고 위치 정보 표시
-//            setAnnotation(latitudeValue: 37.3826616, longitudeValue: 126.840719, delta: 0.1, title: "물왕저수지 정통밥집", subtitle: "경기 시흥시 동서로857번길 6")
-//            self.locationInfo1.text = "보고 계신 위치"
-//            self.locationInfo2.text = "물왕저수지 정통밥집"
-//        } else if sender.selectedSegmentIndex == 2 {
-//            // "이디야 북한산점" 선택 - 핀을 설치하고 위치 정보 표시
-//            setAnnotation(latitudeValue: 37.6447360, longitudeValue: 127.005575, delta: 0.1, title: "이디야 북한산점", subtitle: "서울 강북구 4.19로 85")
-//                       self.locationInfo1.text = "보고 계신 위치"
-//                       self.locationInfo2.text = "이디야 북한산점"
-//        }
-//
-//    }
     // MARK: - MKMapViewDelegate
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
