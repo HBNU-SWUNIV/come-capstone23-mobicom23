@@ -56,9 +56,6 @@ class SerialViewController: UIViewController, BluetoothSerialDelegate, CLLocatio
         
         // BluetoothSerial.swift 파일에 있는 Bluetooth Serial인 serial을 초기화합니다.
         serial = BluetoothSerial.init()
-//        sendRequest()
-        // POST 요청 보내기
-//        sendPostRequest(email: "sujin@gmail.com", content: "난폭운전 종류: 차간주행", latitude: latitude, longitude: longitude)
         // GET 요청 보내기
         sendGetRequest()
         print("hi")
@@ -192,7 +189,7 @@ class SerialViewController: UIViewController, BluetoothSerialDelegate, CLLocatio
 //    // API 요청 보내기
     // GET 요청 예시
     func sendGetRequest() {
-        guard let url = URL(string: "http://172.17.155.63:8080/list/") else {
+        guard let url = URL(string: "http://121.159.178.99:8080/list/") else {
             print("URL 생성에 실패했습니다.")
             return
         }
@@ -231,7 +228,7 @@ class SerialViewController: UIViewController, BluetoothSerialDelegate, CLLocatio
 
     // POST 요청 예시
     func sendPostRequest(email: String, content: String, latitude: Double, longitude: Double) {
-        guard let url = URL(string: "http://172.17.155.63:8080/data/endpost") else {
+        guard let url = URL(string: "http://121.159.178.99:8080/data/endpost") else {
             print("URL 생성에 실패했습니다.")
             return
         }

@@ -26,11 +26,12 @@ class SignUpViewController: UIViewController {
             print("no")
         }
         sendPostRequest(email: NewIDTextField.text!, pw: NewPWTextField.text!)
+        self.navigationController?.popViewController(animated: true)
     }
     
     // POST 요청 예시
     func sendPostRequest(email: String, pw: String) {
-        guard let url = URL(string: "http://172.17.155.63:8080/join") else {
+        guard let url = URL(string: "http://121.159.178.99:8080/join") else {
             print("URL 생성에 실패했습니다.")
             return
         }
