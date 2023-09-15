@@ -1,7 +1,6 @@
 package com.victolee.signuplogin.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.victolee.signuplogin.domain.entity.DataEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -25,6 +24,7 @@ import java.util.stream.Collectors;
 public class User implements UserDetails {
 
     @Id
+    @JsonIgnore
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -33,29 +33,63 @@ public class User implements UserDetails {
 
     @Column(length = 100, nullable = false)
     private String password;
-    @Column(columnDefinition = "localdatatime")
+    @Column(length = 100)
+    private String name;
+    @Column(columnDefinition = "TIMESTAMP")
     private LocalDateTime localDateTime;
+    @Column(length = 100)
+    private String birth;
+    @Column(length = 100)
+    private String car_number;
+    @Column(length = 100)
+    private String phone_number;
 
     @ElementCollection(fetch = FetchType.EAGER)
     @Builder.Default
+    @JsonIgnore
     private List<String> roles = new ArrayList<>();
 
-
+    @JsonIgnore
     public LocalDateTime getRegistrationDateTime() {
         return localDateTime;
     }
 
-    public void setRegistrationDateTime(LocalDateTime registrationDateTime) {
-        this.localDateTime = registrationDateTime;
-    }
+
     @Override
+    @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return this.roles.stream()
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
     }
 
+
     @Override
+    @JsonIgnore
+    public boolean isAccountNonExpired() {
+        return false;
+    }
+
+    @Override
+    @JsonIgnore
+    public boolean isAccountNonLocked() {
+        return false;
+    }
+
+    @Override
+    @JsonIgnore
+    public boolean isCredentialsNonExpired() {
+        return false;
+    }
+
+    @Override
+    @JsonIgnore
+    public boolean isEnabled() {
+        return false;
+    }
+    /////////////////////
+    @Override
+    @JsonIgnore
     public String getUsername() {
         return email;
     }
@@ -63,24 +97,21 @@ public class User implements UserDetails {
     public String getPassword() {
         return this.password;
     }
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
 
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
+    @JsonIgnore
+    public void getName(String name) {
+        this.name = name;
     }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
+    @JsonIgnore
+    public void getBirth(String birth) {
+        this.birth = birth;
     }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
+    @JsonIgnore
+    public void getCar_number(String car_number){
+        this.car_number= car_number;
+    }
+    @JsonIgnore
+    public void getPhone_number(String phone_number){
+        this.phone_number = phone_number;
     }
 }
-
