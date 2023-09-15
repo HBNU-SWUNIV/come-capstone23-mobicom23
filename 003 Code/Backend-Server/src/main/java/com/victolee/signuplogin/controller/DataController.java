@@ -3,6 +3,7 @@ package com.victolee.signuplogin.controller;
 
 import com.victolee.signuplogin.JwT.JwtTokenProvider;
 import com.victolee.signuplogin.domain.entity.DataEntity;
+import com.victolee.signuplogin.domain.repository.DataRepository;
 import com.victolee.signuplogin.service.DataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,20 +12,23 @@ import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 import java.util.Map;
 
 @RestController
 @RequestMapping( "/data")
 public class DataController {
     private final DataService dataService;
+    private DataRepository dataRepository;
     private final JwtTokenProvider jwtTokenProvider;
     @Autowired
-    public DataController(DataService dataService, JwtTokenProvider jwtTokenProvider){
+    public DataController(DataService dataService, JwtTokenProvider jwtTokenProvider, DataRepository dataRepository){
         this.jwtTokenProvider= jwtTokenProvider;
         this.dataService = dataService;
+        this.dataRepository = dataRepository;
     }
 
-    @PostMapping("/endpost")
+    @PostMapping("/post")
     public ResponseEntity<String> createUser(@RequestBody DataEntity dataEntity) {
         dataService.saveData(dataEntity);
         String response = "POST 요청이 성공적으로 처리되었습니다.";
@@ -47,5 +51,8 @@ public class DataController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid or expired token");
         }
     }
+    @GetMapping("/list")
+    public List<DataEntity> getAllData() {
+        return dataRepository.findAll();
+    }
 }
-
