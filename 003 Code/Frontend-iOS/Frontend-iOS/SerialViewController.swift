@@ -189,7 +189,8 @@ class SerialViewController: UIViewController, BluetoothSerialDelegate, CLLocatio
 //    // API 요청 보내기
     // GET 요청 예시
     func sendGetRequest() {
-        guard let url = URL(string: "http://121.159.178.99:8080/list/") else {
+//        guard let url = URL(string: "http://121.159.178.99:8080/list/") else {
+            guard let url = URL(string: "http://172.17.47.4:8080/list") else {
             print("URL 생성에 실패했습니다.")
             return
         }
@@ -228,7 +229,8 @@ class SerialViewController: UIViewController, BluetoothSerialDelegate, CLLocatio
 
     // POST 요청 예시
     func sendPostRequest(email: String, content: String, latitude: Double, longitude: Double) {
-        guard let url = URL(string: "http://121.159.178.99:8080/data/endpost") else {
+//        guard let url = URL(string: "http://121.159.178.99:8080/data/endpost") else {
+        guard let url = URL(string: "http://172.17.47.4:8080/data/endpost") else {
             print("URL 생성에 실패했습니다.")
             return
         }

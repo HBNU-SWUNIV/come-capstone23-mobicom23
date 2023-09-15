@@ -33,17 +33,18 @@ class MapViewController: UIViewController, CLLocationManagerDelegate{
         mapView.showsUserLocation = true
         sendGetRequest(email: GlobalVariable.shared.userEmail!)
         
-        let marker1Coordinate = CLLocationCoordinate2D(latitude: 36.3526616, longitude: 127.298719)
-        let marker1 = CustomAnnotation(title: "난폭운전 종류: 차간주행", subtitle: "2023-08-05 11:47", coordinate: marker1Coordinate)
-        markers.append(marker1)
-        
-        let marker2Coordinate = CLLocationCoordinate2D(latitude: 36.3547360, longitude: 127.298575)
-        let marker2 = CustomAnnotation(title: "난폭운전 종류: 와리가리", subtitle: "2023-08-21 17:56", coordinate: marker2Coordinate)
-        markers.append(marker2)
+//        let marker1Coordinate = CLLocationCoordinate2D(latitude: 36.3526616, longitude: 127.298719)
+//        let marker1 = CustomAnnotation(title: "난폭운전 종류: 차간주행", subtitle: "2023-08-05 11:47", coordinate: marker1Coordinate)
+//        markers.append(marker1)
+//        
+//        let marker2Coordinate = CLLocationCoordinate2D(latitude: 36.3547360, longitude: 127.298575)
+//        let marker2 = CustomAnnotation(title: "난폭운전 종류: 와리가리", subtitle: "2023-08-21 17:56", coordinate: marker2Coordinate)
+//        markers.append(marker2)
     }
     
     func sendGetRequest(email: String) {
-        guard let url = URL(string: "http://121.159.178.99:8080/getData/\(email)") else {
+//        guard let url = URL(string: "http://121.159.178.99:8080/getData/\(email)") else {
+        guard let url = URL(string: "http://172.17.47.4:8080/getData/\(email)") else {
             print("URL 생성에 실패했습니다.")
             return
         }
