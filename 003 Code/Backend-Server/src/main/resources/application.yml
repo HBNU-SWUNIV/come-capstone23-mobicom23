@@ -3,10 +3,10 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/mobicom_db?serverTimezone=UTC&characterEncoding=UTF-8
     username: test
-    password: #password
+    password: 1234
   mvc:
     cors:
-      allowed-origins: http://localhost, http://172.20.10.7
+      allowed-origins: http://localhost, http://172.20.10.7:*","http://121.159.178.99:*","http://172.17.47.4:*
       allowed-methods: GET,POST,PUT,DELETE
       allowed-headers: Authorization,Content-Type
       allow-credentials: true
@@ -17,7 +17,7 @@ spring:
     show-sql: true
     hibernate:
       format_sql: true
-      ddl-auto: none 
+      ddl-auto: none #db에 계속 저장(새로새로 업데이트 하고싶을 땐 create)
 
 logging:
   level:
@@ -28,5 +28,4 @@ logging:
           descriptor:
             sql:
               BasicBinder: TRACE
-
 
