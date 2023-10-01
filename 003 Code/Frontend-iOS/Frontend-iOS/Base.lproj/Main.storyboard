@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22152" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="8hu-wy-xnG">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22154" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="8hu-wy-xnG">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22127"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22130"/>
         <capability name="Map view configurations" minToolsVersion="14.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -455,17 +455,19 @@
                                 <rect key="frame" x="0.0" y="59" width="393" height="710"/>
                                 <standardMapConfiguration key="preferredConfiguration"/>
                             </mapView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Py-6C-qoJ">
-                                <rect key="frame" x="308" y="99" width="42" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="eCj-ve-7cB">
+                                <rect key="frame" x="223" y="69" width="160" height="160"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="160" id="Cer-9G-F3d"/>
+                                    <constraint firstAttribute="height" constant="160" id="Fs7-3v-luH"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="EU5-X5-iXk"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="EU5-X5-iXk" firstAttribute="trailing" secondItem="eCj-ve-7cB" secondAttribute="trailing" constant="10" id="Ax1-pJ-W90"/>
+                            <constraint firstItem="eCj-ve-7cB" firstAttribute="top" secondItem="EU5-X5-iXk" secondAttribute="top" constant="10" id="OnN-sC-bQK"/>
                             <constraint firstItem="EU5-X5-iXk" firstAttribute="trailing" secondItem="Xyr-Bw-d1o" secondAttribute="trailing" id="aQn-Ng-4Gb"/>
                             <constraint firstItem="Xyr-Bw-d1o" firstAttribute="leading" secondItem="EU5-X5-iXk" secondAttribute="leading" id="bG2-8k-GMk"/>
                             <constraint firstItem="EU5-X5-iXk" firstAttribute="bottom" secondItem="Xyr-Bw-d1o" secondAttribute="bottom" id="h35-6r-mXY"/>
@@ -475,7 +477,7 @@
                     <tabBarItem key="tabBarItem" title="Map" id="GBr-kO-4zM"/>
                     <connections>
                         <outlet property="mapView" destination="Xyr-Bw-d1o" id="50q-7U-GbG"/>
-                        <outlet property="notice" destination="4Py-6C-qoJ" id="sXZ-9O-MMr"/>
+                        <outlet property="noticeImage" destination="eCj-ve-7cB" id="JaS-g4-TdY"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ENk-t8-xnz" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

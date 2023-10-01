@@ -12,11 +12,12 @@ import CoreLocation
 class MapViewController: UIViewController, CLLocationManagerDelegate{
     
     @IBOutlet weak var mapView: MKMapView!
-    @IBOutlet weak var notice: UILabel!
+    @IBOutlet weak var noticeImage: UIImageView!
     
     var check = false
     var locationManager = CLLocationManager()
-    var markers: [CustomAnnotation] = []
+    var userMarkers: [CustomAnnotation] = []
+    var allMarkers: [CustomAnnotation] = []
     var currentLocation: CLLocation?
     
     override func viewDidLoad() {
@@ -68,10 +69,53 @@ class MapViewController: UIViewController, CLLocationManagerDelegate{
                             let time = jsonObject["time"] as? String
                             if let type = jsonObject["type"] as? String {
                                 let markerCoordinate = CLLocationCoordinate2D(latitude: latitude!, longitude: longitude!)
-                                self.markers.append(CustomAnnotation(title: type, subtitle: time, coordinate: markerCoordinate))
+                                self.userMarkers.append(CustomAnnotation(title: type, subtitle: time, coordinate: markerCoordinate))
                             }
                         }
-                        self.mapView.addAnnotations(self.markers)
+                        self.mapView.addAnnotations(self.userMarkers)
+                    }
+//                    let decoder = JSONDecoder()
+//                    let myData = try? JSONDecoder().decode(LocationData.self, from: data)
+//                    print(myData)
+//                    print("원하는 값: \(myData?.time)")
+                } catch {
+                    print("JSON 파싱 실패: \(error.localizedDescription)")
+                }
+            }
+        }
+
+        task.resume()
+    }
+    
+    func sendGetAllDataRequest(email: String) {
+//        guard let url = URL(string: "http://121.159.178.99:8080/getData/\(email)") else {
+        guard let url = URL(string: "http://172.17.47.4:8080/data/list") else {
+            print("URL 생성에 실패했습니다.")
+            return
+        }
+
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            if let error = error {
+                print("요청 실패: \(error.localizedDescription)")
+                return
+            }
+            
+            if let data = data {
+                do {
+                    if let jsonArray = try JSONSerialization.jsonObject(with: data, options: []) as? [[String: Any]] {
+                        print(jsonArray)
+                        for jsonObject in jsonArray {
+                            let latitude = jsonObject["latitude"] as? Double
+                            let longitude = jsonObject["longitude"] as? Double
+                            let time = jsonObject["time"] as? String
+                            if let type = jsonObject["type"] as? String {
+                                let markerCoordinate = CLLocationCoordinate2D(latitude: latitude!, longitude: longitude!)
+                                self.allMarkers.append(CustomAnnotation(title: type, subtitle: time, coordinate: markerCoordinate))
+                            }
+                        }
                     }
 //                    let decoder = JSONDecoder()
 //                    let myData = try? JSONDecoder().decode(LocationData.self, from: data)
@@ -92,13 +136,18 @@ class MapViewController: UIViewController, CLLocationManagerDelegate{
         if let newLocation = locations.last {
             currentLocation = newLocation
             
-            for marker in markers {
+            var dangerousCount = 0
+            for marker in allMarkers {
                 if let location = currentLocation {
                     let markerLocation = CLLocation(latitude: marker.coordinate.latitude, longitude: marker.coordinate.longitude)
                     let distance = location.distance(from: markerLocation)
                     check = false
                     
                     if distance <= 100 {
+                        dangerousCount += 1
+                    }
+                    
+                    if dangerousCount >= 3 {
                         // Trigger a notification
                         let notification = UNMutableNotificationContent()
                         notification.title = "Marker Proximity"
@@ -106,10 +155,10 @@ class MapViewController: UIViewController, CLLocationManagerDelegate{
                         
                         let request = UNNotificationRequest(identifier: "markerProximity", content: notification, trigger: nil)
                         UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
-                        notice.text = "경고"
+                        noticeImage.image = UIImage(named: "dangerous.png")
                         check = true
                     } else if check == false {
-                        notice.text = "안전"
+                        noticeImage.image = UIImage(named: "safe.png")
                     }
                 }
             }
