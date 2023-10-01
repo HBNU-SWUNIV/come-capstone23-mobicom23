@@ -565,6 +565,9 @@
                     <tabBarItem key="tabBarItem" title="Setting" id="uyu-09-Squ"/>
                     <connections>
                         <outlet property="tableView" destination="VGP-N4-Z7V" id="JQB-5L-kMe"/>
+                        <outlet property="userName" destination="MDA-kA-FOw" id="rtU-4F-YKg"/>
+                        <outlet property="userRank" destination="5a1-UY-3Dd" id="W0g-s1-1gN"/>
+                        <outlet property="userRankImage" destination="2yy-UV-u8r" id="rs0-E9-goQ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QlI-bC-pNb" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
