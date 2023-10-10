@@ -11,4 +11,6 @@ class GlobalVariable {
     static let shared: GlobalVariable = GlobalVariable()
     
     var userEmail: String?
+    var userName: String?
+    var userRank: String?
 }
