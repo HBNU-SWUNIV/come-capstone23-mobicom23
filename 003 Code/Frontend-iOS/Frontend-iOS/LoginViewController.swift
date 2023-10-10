@@ -24,8 +24,8 @@ class LoginViewController: UIViewController {
     }
     
     func sendGetRequest(email: String) {
-//        guard let url = URL(string: "http://121.159.178.99:8080/list/\(email)") else {
-        guard let url = URL(string: "http://172.17.47.4:8080/list/\(email)") else {
+        guard let url = URL(string: "http://121.159.178.99:8080/list/\(email)") else {
+//        guard let url = URL(string: "http://172.17.47.4:8080/list/\(email)") else {
             print("URL 생성에 실패했습니다.")
             return
         }

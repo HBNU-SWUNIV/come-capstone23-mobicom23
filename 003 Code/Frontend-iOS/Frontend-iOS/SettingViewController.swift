@@ -21,11 +21,13 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         self.tableView.delegate = self
         self.tableView.dataSource = self
+        sendGetRequest(email: GlobalVariable.shared.userEmail!)
+        print(GlobalVariable.shared.userEmail!)
     }
     
     func sendGetRequest(email: String) {
-//        guard let url = URL(string: "http://121.159.178.99:8080/list/\(email)") else {
-        guard let url = URL(string: "http://172.17.47.4:8080/list/\(email)") else {
+        guard let url = URL(string: "http://121.159.178.99:8080/list/\(email)") else {
+//        guard let url = URL(string: "http://172.17.47.4:8080/list/\(email)") else {
             print("URL 생성에 실패했습니다.")
             return
         }
@@ -41,18 +43,19 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
 
             if let data = data {
                 do {
-                    if let jsonArray = try JSONSerialization.jsonObject(with: data, options: []) as? [[String: Any]] {
-                        for jsonObject in jsonArray {
-                            let name = jsonObject["name"] as? String
-                            if let rank = jsonObject["rank"] as? String {
-                                self.userName.text = name! + " 님"
-                                self.userRank.text = rank
+                    if let jsonObject = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
+                        let rank = jsonObject["Rank"] as? String
+                        let userInfo = jsonObject["UserInfo"] as? [String:Any]
+                        if let name = userInfo!["name"] as? String {
+                            DispatchQueue.main.async {
+                                self.userName.text = name + " 님"
+                                self.userRank.text = rank! + " 등급"
                                 
-                                if rank == "초록 등급" {
+                                if rank == "초록" {
                                     self.userRankImage.image = UIImage(named: "greenRank.png")
-                                } else if rank == "노랑 등급" {
+                                } else if rank == "노랑" {
                                     self.userRankImage.image = UIImage(named: "yellowRank.png")
-                                } else if rank == "빨강 등급" {
+                                } else if rank == "빨강" {
                                     self.userRankImage.image = UIImage(named: "redRank.png")
                                 }
                             }

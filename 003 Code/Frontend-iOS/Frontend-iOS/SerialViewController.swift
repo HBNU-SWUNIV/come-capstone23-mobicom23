@@ -36,6 +36,11 @@ class SerialViewController: UIViewController, BluetoothSerialDelegate, CLLocatio
     var dangerousWarigariCount = 0
     var dangerousWarigariDrive = 0
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        navigationController?.setNavigationBarHidden(true, animated: true)
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         // 델리게이트 설정
@@ -57,7 +62,7 @@ class SerialViewController: UIViewController, BluetoothSerialDelegate, CLLocatio
         // BluetoothSerial.swift 파일에 있는 Bluetooth Serial인 serial을 초기화합니다.
         serial = BluetoothSerial.init()
         // GET 요청 보내기
-        sendGetRequest()
+        sendGetRequest(email: GlobalVariable.shared.userEmail!)
         print("hi")
     }
     
@@ -153,12 +158,12 @@ class SerialViewController: UIViewController, BluetoothSerialDelegate, CLLocatio
         dangerousWarigariCount += 1
         
         if dangerousBetweenCount > 5 {
-            sendPostRequest(email: GlobalVariable.shared.userEmail!, content: "난폭운전 종류: 차간주행", latitude: latitude, longitude: longitude)
+            sendPostRequest(email: GlobalVariable.shared.userEmail!, content: "난폭운전 종류: 차간주행", lane: 1, warigari: 0, latitude: latitude, longitude: longitude)
             dangerousBetweenDrive += 1
             dangerousBetweenCount = 0
         }
         if dangerousWarigariCount > 5 {
-            sendPostRequest(email: GlobalVariable.shared.userEmail!, content: "난폭운전 종류: 와리가리", latitude: latitude, longitude: longitude)
+            sendPostRequest(email: GlobalVariable.shared.userEmail!, content: "난폭운전 종류: 와리가리", lane: 0, warigari: 1, latitude: latitude, longitude: longitude)
             dangerousWarigariDrive += 1
             dangerousWarigariCount = 0
         }
@@ -188,9 +193,9 @@ class SerialViewController: UIViewController, BluetoothSerialDelegate, CLLocatio
 
 //    // API 요청 보내기
     // GET 요청 예시
-    func sendGetRequest() {
-//        guard let url = URL(string: "http://121.159.178.99:8080/list/") else {
-            guard let url = URL(string: "http://172.17.47.4:8080/list") else {
+    func sendGetRequest(email: String) {
+        guard let url = URL(string: "http://121.159.178.99:8080/list/\(email)") else {
+//            guard let url = URL(string: "http://172.17.47.4:8080/list/\(email)") else {
             print("URL 생성에 실패했습니다.")
             return
         }
@@ -206,11 +211,12 @@ class SerialViewController: UIViewController, BluetoothSerialDelegate, CLLocatio
             
             if let data = data {
                 do {
-                    if let jsonArray = try JSONSerialization.jsonObject(with: data, options: []) as? [[String: Any]] {
-                        print(jsonArray)
-                        for jsonObject in jsonArray {
-                            if let desiredValue = jsonObject["email"] as? String {
-                                print("원하는 값: \(desiredValue)")
+                    if let jsonObject = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
+                        let warigari = jsonObject["WarigariCounts"] as? Int
+                        if let lane = jsonObject["LaneSplittingCounts"] as? Int {
+                            DispatchQueue.main.async {
+                                self.dangerousWarigariCount = warigari!
+                                self.dangerousBetweenCount = lane
                             }
                         }
                     }
@@ -228,9 +234,9 @@ class SerialViewController: UIViewController, BluetoothSerialDelegate, CLLocatio
     }
 
     // POST 요청 예시
-    func sendPostRequest(email: String, content: String, latitude: Double, longitude: Double) {
-//        guard let url = URL(string: "http://121.159.178.99:8080/data/endpost") else {
-        guard let url = URL(string: "http://172.17.47.4:8080/data/endpost") else {
+    func sendPostRequest(email: String, content: String, lane: Int, warigari: Int, latitude: Double, longitude: Double) {
+        guard let url = URL(string: "http://121.159.178.99:8080/data/post") else {
+//        guard let url = URL(string: "http://172.17.47.4:8080/data/post") else {
             print("URL 생성에 실패했습니다.")
             return
         }
@@ -246,6 +252,8 @@ class SerialViewController: UIViewController, BluetoothSerialDelegate, CLLocatio
         let jsonData: [String: Any] = [
             "email":email,
             "type":content,
+            "lane_splitting_count":lane,
+            "warigari_count":warigari,
             "time":current_date_string,
             "latitude" : latitude,
             "longitude" : longitude
