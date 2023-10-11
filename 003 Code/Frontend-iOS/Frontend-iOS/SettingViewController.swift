@@ -44,6 +44,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
             if let data = data {
                 do {
                     if let jsonObject = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
+                        print(jsonObject)
                         let rank = jsonObject["Rank"] as? String
                         let userInfo = jsonObject["UserInfo"] as? [String:Any]
                         if let name = userInfo!["name"] as? String {

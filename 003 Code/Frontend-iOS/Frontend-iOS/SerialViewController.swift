@@ -215,8 +215,8 @@ class SerialViewController: UIViewController, BluetoothSerialDelegate, CLLocatio
                         let warigari = jsonObject["WarigariCounts"] as? Int
                         if let lane = jsonObject["LaneSplittingCounts"] as? Int {
                             DispatchQueue.main.async {
-                                self.dangerousWarigariCount = warigari!
-                                self.dangerousBetweenCount = lane
+                                self.dangerousWarigariDrive = warigari!
+                                self.dangerousBetweenDrive = lane
                             }
                         }
                     }

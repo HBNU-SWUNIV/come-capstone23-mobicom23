@@ -32,7 +32,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate{
         locationManager.startUpdatingLocation()
         // 위치 보기 설정
         mapView.showsUserLocation = true
-//        sendGetAllDataRequest(email: GlobalVariable.shared.userEmail!)
+        sendGetAllDataRequest()
         sendGetRequest(email: GlobalVariable.shared.userEmail!)
         
 //        let marker1Coordinate = CLLocationCoordinate2D(latitude: 36.3526616, longitude: 127.298719)
@@ -62,17 +62,17 @@ class MapViewController: UIViewController, CLLocationManagerDelegate{
             
             if let data = data {
                 do {
-                    if let jsonArray = try JSONSerialization.jsonObject(with: data, options: []) as? [[String: Any]] {
-                        print(jsonArray)
-                        for jsonObject in jsonArray {
-                            let latitude = jsonObject["latitude"] as? Double
-                            let longitude = jsonObject["longitude"] as? Double
-                            let time = jsonObject["time"] as? String
-                            if let type = jsonObject["type"] as? String {
-                                let markerCoordinate = CLLocationCoordinate2D(latitude: latitude!, longitude: longitude!)
-                                self.userMarkers.append(CustomAnnotation(title: type, subtitle: time, coordinate: markerCoordinate))
+                    if let jsonObject = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
+                       let dataArray = jsonObject["DataInfo"] as? [[String:Any]] {
+                            for dataInfo in dataArray {
+                                let latitude = dataInfo["latitude"] as? Double
+                                let longitude = dataInfo["longitude"] as? Double
+                                let time = dataInfo["time"] as? String
+                                if let type = dataInfo["type"] as? String {
+                                    let markerCoordinate = CLLocationCoordinate2D(latitude: latitude!, longitude: longitude!)
+                                    self.userMarkers.append(CustomAnnotation(title: type, subtitle: time, coordinate: markerCoordinate))
+                                }
                             }
-                        }
                         self.mapView.addAnnotations(self.userMarkers)
                     }
 //                    let decoder = JSONDecoder()
@@ -88,7 +88,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate{
         task.resume()
     }
     
-    func sendGetAllDataRequest(email: String) {
+    func sendGetAllDataRequest() {
         guard let url = URL(string: "http://121.159.178.99:8080/data/list") else {
 //        guard let url = URL(string: "http://172.17.47.4:8080/data/list") else {
             print("URL 생성에 실패했습니다.")
@@ -107,7 +107,6 @@ class MapViewController: UIViewController, CLLocationManagerDelegate{
             if let data = data {
                 do {
                     if let jsonArray = try JSONSerialization.jsonObject(with: data, options: []) as? [[String: Any]] {
-                        print(jsonArray)
                         for jsonObject in jsonArray {
                             let latitude = jsonObject["latitude"] as? Double
                             let longitude = jsonObject["longitude"] as? Double
@@ -148,7 +147,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate{
                         dangerousCount += 1
                     }
                     
-                    if dangerousCount >= 3 {
+                    if dangerousCount >= 1 {
                         // Trigger a notification
                         let notification = UNMutableNotificationContent()
                         notification.title = "Marker Proximity"
