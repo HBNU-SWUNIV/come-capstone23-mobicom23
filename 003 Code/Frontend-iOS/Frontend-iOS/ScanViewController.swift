@@ -16,6 +16,12 @@ class ScanViewController: UIViewController, UITableViewDataSource, UITableViewDe
     // 현재 검색된 peripheralList입니다.
     var peripheralList : [(peripheral : CBPeripheral, RSSI : Float)] = []
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        navigationController?.setNavigationBarHidden(false, animated: false)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
