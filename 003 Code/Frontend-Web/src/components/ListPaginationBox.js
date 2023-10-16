@@ -1,36 +1,63 @@
 import { styled } from "styled-components";
 
-function ListPaginationBox() {
+function ListPaginationBox({ total, limit, page, setPage }) {
+  const numPages = Math.ceil(total / limit);
+
   return (
     <ListPaginationBoxContainer>
-      <PaginationBtn>1</PaginationBtn>
-      <PaginationBtn>2</PaginationBtn>
-      <PaginationBtn>3</PaginationBtn>
-      <PaginationBtn>4</PaginationBtn>
-      <PaginationBtn>5</PaginationBtn>
+      <PaginationBtn onClick={() => setPage(page - 1)} disabled={page === 1}>
+        &lt;
+      </PaginationBtn>
+      {Array(numPages)
+        .fill()
+        .map((_, i) => (
+          <PaginationBtn key={i + 1} onClick={() => setPage(i + 1)} aria-current={page === i + 1 ? "page" : undefined}>
+            {i + 1}
+          </PaginationBtn>
+        ))}
+      <PaginationBtn onClick={() => setPage(page + 1)} disabled={page === numPages}>
+        &gt;
+      </PaginationBtn>
     </ListPaginationBoxContainer>
   );
 }
 
 export default ListPaginationBox;
 
-const ListPaginationBoxContainer = styled.div`
-  width: 50rem;
-  height: 5rem;
-  margin-top: 3rem;
+const ListPaginationBoxContainer = styled.nav`
   display: flex;
-  flex-direction: row;
-  justify-content: space-around;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  margin: 16px;
 `;
 
 const PaginationBtn = styled.button`
-  width: 5rem;
-  height: 100%;
   border: none;
-  border-radius: 50%;
-  background-color: white;
-  &:focus {
-    background-size: 2rem;
-    background-color: #e8e6e6;
+  border-radius: 8px;
+  padding: 8px;
+  margin: 0;
+  background: white;
+  color: black;
+  font-size: 1rem;
+
+  &:hover {
+    border: 1px solid;
+    cursor: pointer;
+    transform: translateY(-2px);
+  }
+  &[disabled] {
+    background: white;
+    border: 1px solid;
+    color: black;
+    cursor: revert;
+    transform: revert;
+  }
+  &[aria-current] {
+    background: #6cbae7;
+    color: white;
+    font-weight: bold;
+    cursor: revert;
+    transform: revert;
   }
 `;

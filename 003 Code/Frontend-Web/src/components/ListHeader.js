@@ -4,7 +4,7 @@ function ListHeader() {
   return (
     <ListHeaderContainer>
       <ListTitleContainer>
-        <ListTitleText>이름</ListTitleText>
+        <ListTitleText>ID</ListTitleText>
       </ListTitleContainer>
       <ListTitleContainer>
         <ListTitleText>등급</ListTitleText>
