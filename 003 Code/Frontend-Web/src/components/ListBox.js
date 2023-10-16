@@ -1,10 +1,16 @@
 import { styled } from "styled-components";
+import { useEffect, useState } from "react";
 import ListHeader from "./ListHeader";
 import ListBody from "./ListBody";
 import ListPaginationBox from "./ListPaginationBox";
 
 function ListBox() {
-  const testBtnClick = async () => {
+  const [limit, setLimit] = useState(10);
+  const [page, setPage] = useState(1);
+  const [data, setData] = useState([]);
+  const offset = (page - 1) * limit;
+
+  const getData = async () => {
     await fetch("/list", {
       method: "GET",
       mode: "no-cors",
@@ -12,103 +18,26 @@ function ListBox() {
         "Content-Type": "application/json",
       },
     }).then((result) => {
-      // console.log(result);
-      result.json().then((re) => {
-        console.log(re);
+      result.json().then((response) => {
+        console.log(response);
+        setData(response);
       });
-      // let data = result.json();
-      // data.then((re) => {
-      //   console.log(re);
-      // });
     });
-    // .catch((err) => {
-    //   console.log(err);
-    // });
   };
 
-  const dummy = [
-    {
-      name: "홍길동",
-      grade: 1,
-      email: "test1@test.com",
-      amount: 2,
-      time: "2023.07.26",
-    },
-    {
-      name: "아무개",
-      grade: 3,
-      email: "test2@test.com",
-      amount: 12,
-      time: "2023.02.26",
-    },
-    {
-      name: "김철수",
-      grade: 2,
-      email: "test3@test.com",
-      amount: 6,
-      time: "2023.05.11",
-    },
-    {
-      name: "박진수",
-      grade: 5,
-      email: "test4@test.com",
-      amount: 20,
-      time: "2023.01.20",
-    },
-    {
-      name: "신형만",
-      grade: 1,
-      email: "test5@test.com",
-      amount: 0,
-      time: "2023.02.10",
-    },
-    {
-      name: "홍길동",
-      grade: 1,
-      email: "test1@test.com",
-      amount: 2,
-      time: "2023.07.26",
-    },
-    {
-      name: "아무개",
-      grade: 3,
-      email: "test2@test.com",
-      amount: 12,
-      time: "2023.02.26",
-    },
-    {
-      name: "김철수",
-      grade: 2,
-      email: "test3@test.com",
-      amount: 6,
-      time: "2023.05.11",
-    },
-    {
-      name: "박진수",
-      grade: 5,
-      email: "test4@test.com",
-      amount: 20,
-      time: "2023.01.20",
-    },
-    {
-      name: "신형만",
-      grade: 1,
-      email: "test5@test.com",
-      amount: 0,
-      time: "2023.02.10",
-    },
-  ];
+  useEffect(() => {
+    getData();
+  }, []);
 
   return (
     <ListBoxContainer>
-      <button onClick={testBtnClick}>test</button>
       <ListContainer>
         <ListHeader />
-        {dummy.map((e) => {
-          return <ListBody name={e.name} grade={e.grade} email={e.email} amount={e.amount} time={e.time} />;
+        {data.slice(offset, offset + limit).map((e) => {
+          return <ListBody id={e.id} email={e.email} amount={e.TotalDataCount} time={e.localDateTime} rank={e.rank} />;
         })}
       </ListContainer>
-      <ListPaginationBox></ListPaginationBox>
+      <ListPaginationBox total={data.length} limit={limit} page={page} setPage={setPage}></ListPaginationBox>
     </ListBoxContainer>
   );
 }
