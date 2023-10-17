@@ -45,8 +45,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate{
     }
     
     func sendGetRequest(email: String) {
-        guard let url = URL(string: "http://121.159.178.99:8080/data/\(email)") else {
-//        guard let url = URL(string: "http://172.17.47.4:8080/data/\(email)") else {
+        guard let url = URL(string: "\(GlobalVariable.shared.apiURL)/data/\(email)") else {
             print("URL 생성에 실패했습니다.")
             return
         }
@@ -89,8 +88,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate{
     }
     
     func sendGetAllDataRequest() {
-        guard let url = URL(string: "http://121.159.178.99:8080/data/list") else {
-//        guard let url = URL(string: "http://172.17.47.4:8080/data/list") else {
+        guard let url = URL(string: "\(GlobalVariable.shared.apiURL)/data/list") else {
             print("URL 생성에 실패했습니다.")
             return
         }
@@ -143,7 +141,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate{
                     let markerLocation = CLLocation(latitude: marker.coordinate.latitude, longitude: marker.coordinate.longitude)
                     let distance = location.distance(from: markerLocation)
                     
-                    if distance <= 100 {
+                    if distance <= 50 {
                         dangerousCount += 1
                     }
                     

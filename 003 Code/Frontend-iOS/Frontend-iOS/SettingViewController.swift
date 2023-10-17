@@ -26,8 +26,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     func sendGetRequest(email: String) {
-        guard let url = URL(string: "http://121.159.178.99:8080/list/\(email)") else {
-//        guard let url = URL(string: "http://172.17.47.4:8080/list/\(email)") else {
+        guard let url = URL(string: "\(GlobalVariable.shared.apiURL)/list/\(email)") else {
             print("URL 생성에 실패했습니다.")
             return
         }
@@ -52,12 +51,15 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
                                 self.userName.text = name + " 님"
                                 self.userRank.text = rank! + " 등급"
                                 
-                                if rank == "초록" {
+                                if rank == "안전" {
                                     self.userRankImage.image = UIImage(named: "greenRank.png")
-                                } else if rank == "노랑" {
+                                    self.userRank.textColor = UIColor.green
+                                } else if rank == "주의" {
                                     self.userRankImage.image = UIImage(named: "yellowRank.png")
-                                } else if rank == "빨강" {
+                                    self.userRank.textColor = UIColor.yellow
+                                } else if rank == "위험" {
                                     self.userRankImage.image = UIImage(named: "redRank.png")
+                                    self.userRank.textColor = UIColor.red
                                 }
                             }
                         }
