@@ -141,11 +141,11 @@ class MapViewController: UIViewController, CLLocationManagerDelegate{
                     let markerLocation = CLLocation(latitude: marker.coordinate.latitude, longitude: marker.coordinate.longitude)
                     let distance = location.distance(from: markerLocation)
                     
-                    if distance <= 50 {
+                    if distance <= 100 {
                         dangerousCount += 1
                     }
                     
-                    if dangerousCount >= 1 {
+                    if dangerousCount >= 3 {
                         // Trigger a notification
                         let notification = UNMutableNotificationContent()
                         notification.title = "Marker Proximity"
