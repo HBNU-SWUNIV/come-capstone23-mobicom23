@@ -140,12 +140,12 @@ class SerialViewController: UIViewController, BluetoothSerialDelegate, CLLocatio
         }
             
         if Double(ang)! >= 40 {
-            driveModeLabel.text = "지그재그 주행중!"
+            driveModeLabel.text = "갈지자 주행중!"
             driveModeImageView.image = UIImage(named: "BikeLeft.png")
             serialMessageLabel3.textColor = UIColor.red
             
         } else if Double(ang)! <= -40 {
-            driveModeLabel.text = "지그재그 주행중!"
+            driveModeLabel.text = "갈지자 주행중!"
             driveModeImageView.image = UIImage(named: "BikeRight.png")
             serialMessageLabel3.textColor = UIColor.red
             
@@ -158,12 +158,12 @@ class SerialViewController: UIViewController, BluetoothSerialDelegate, CLLocatio
         dangerousWarigariCount += 1
         
         if dangerousBetweenCount > 5 {
-            sendPostRequest(email: GlobalVariable.shared.userEmail!, content: "난폭운전 종류: 차간주행", lane: 1, warigari: 0, latitude: latitude, longitude: longitude)
+            sendPostRequest(email: GlobalVariable.shared.userEmail!, content: "난폭운전 종류: 차간 주행", lane: 1, warigari: 0, latitude: latitude, longitude: longitude)
             dangerousBetweenDrive += 1
             dangerousBetweenCount = 0
         }
         if dangerousWarigariCount > 5 {
-            sendPostRequest(email: GlobalVariable.shared.userEmail!, content: "난폭운전 종류: 와리가리", lane: 0, warigari: 1, latitude: latitude, longitude: longitude)
+            sendPostRequest(email: GlobalVariable.shared.userEmail!, content: "난폭운전 종류: 갈지자 주행", lane: 0, warigari: 1, latitude: latitude, longitude: longitude)
             dangerousWarigariDrive += 1
             dangerousWarigariCount = 0
         }
