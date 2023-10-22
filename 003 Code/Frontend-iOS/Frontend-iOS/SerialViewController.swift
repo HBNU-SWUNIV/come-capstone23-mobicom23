@@ -103,12 +103,14 @@ class SerialViewController: UIViewController, BluetoothSerialDelegate, CLLocatio
     //MARK: 시리얼에서 호출되는 Delegate 함수들
     
     /// 데이터가 전송된 후 Peripheral로 부터 응답이 오면 호출되는 메서드입니다.
-    func serialDidReceiveMessage(message : String)
-    {
+    func serialDidReceiveMessage(message : String) {
         let arr = message.components(separatedBy: "&")
         let leftDis = arr[0]
         let rightDis = arr[1]
         let ang = String(arr[2].dropLast())
+        
+        var checkDis = true
+        var checkAng = true
         
         driveModeLabel.text = "안전 주행중"
         driveModeImageView.image = UIImage(named: "BikeBasic.png")
@@ -137,6 +139,7 @@ class SerialViewController: UIViewController, BluetoothSerialDelegate, CLLocatio
             }
         } else {
             dangerousBetweenCount = 0
+            checkDis = true
         }
             
         if Double(ang)! >= 40 {
@@ -152,20 +155,21 @@ class SerialViewController: UIViewController, BluetoothSerialDelegate, CLLocatio
         } else {
             
             dangerousWarigariCount = 0
+            checkAng = true
         }
         
         dangerousBetweenCount += 1
         dangerousWarigariCount += 1
         
-        if dangerousBetweenCount > 5 {
+        if dangerousBetweenCount > 5 && checkDis{
             sendPostRequest(email: GlobalVariable.shared.userEmail!, content: "난폭운전 종류: 차간 주행", lane: 1, warigari: 0, latitude: latitude, longitude: longitude)
             dangerousBetweenDrive += 1
-            dangerousBetweenCount = 0
+            checkDis = false
         }
-        if dangerousWarigariCount > 5 {
+        if dangerousWarigariCount > 5 && checkAng{
             sendPostRequest(email: GlobalVariable.shared.userEmail!, content: "난폭운전 종류: 갈지자 주행", lane: 0, warigari: 1, latitude: latitude, longitude: longitude)
             dangerousWarigariDrive += 1
-            dangerousWarigariCount = 0
+            checkAng = false
         }
         
         // 응답으로 온 메시지를 라벨에 표시합니다.
