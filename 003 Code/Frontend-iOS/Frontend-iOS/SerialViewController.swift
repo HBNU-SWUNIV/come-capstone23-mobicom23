@@ -8,8 +8,6 @@
 import UIKit
 import CoreLocation
 
-
-
 class SerialViewController: UIViewController, BluetoothSerialDelegate, CLLocationManagerDelegate {
     
     @IBOutlet weak var serialMessageLabel1: UILabel!
@@ -35,6 +33,9 @@ class SerialViewController: UIViewController, BluetoothSerialDelegate, CLLocatio
     
     var dangerousWarigariCount = 0
     var dangerousWarigariDrive = 0
+    
+    var checkDis = true
+    var checkAng = true
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -108,9 +109,6 @@ class SerialViewController: UIViewController, BluetoothSerialDelegate, CLLocatio
         let leftDis = arr[0]
         let rightDis = arr[1]
         let ang = String(arr[2].dropLast())
-        
-        var checkDis = true
-        var checkAng = true
         
         driveModeLabel.text = "안전 주행중"
         driveModeImageView.image = UIImage(named: "BikeBasic.png")
