@@ -25,7 +25,6 @@ extension BluetoothSerialDelegate {
     func serialDidReceiveMessage(message : String) {}
 }
 
-
 /// 블루투스 통신을 담당할 시리얼을 클래스로 선언합니다. CoreBluetooth를 사용하기 위한 프로토콜을 추가해야합니다.
 class BluetoothSerial: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
      
@@ -66,8 +65,6 @@ class BluetoothSerial: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate 
         }
     }
 
-    
-    
     //MARK: 함수
     
     /// serial을 초기화할 떄 호출하여야합니다. 시리얼은 nil될 수 없기 때문에 항상 초기화후 사용해야 합니다.
