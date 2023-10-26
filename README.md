@@ -15,11 +15,19 @@
 ## System Design
   - ### System Requirements
     - 시스템 구성도
-    - ![image](https://github.com/HBNU-SWUNIV/come-capstone23-mobicom23/assets/102645399/46796017-8553-4489-8f89-56a6bc5e179c)
-
+      
+      ![image](https://github.com/HBNU-SWUNIV/come-capstone23-mobicom23/assets/102645399/46796017-8553-4489-8f89-56a6bc5e179c)
+      
     
 ## Case Study
   - ### Description
+
+    ![image](https://github.com/HBNU-SWUNIV/come-capstone23-mobicom23/assets/102645399/cc2f563c-6503-47dd-8d02-4ae9f56199f3)
+  1. 로그인 화면: 배달 기사는 '회원가입'을 눌러 계정을 추가할 수 있고, 생성된 계정으로 '로그인'을 할 수 있다.
+  2. 메인 화면: 'scan'을 눌러 장착된 센서와 연결을 하고 'start'를 눌러 실시간으로 측정된 데이터를 보여준다. 차간 주행 또는 갈지자(之) 주행을 할 때 경고 표시를 준다.
+  3. 지도 화면: 사용자의 난폭 운전의 이력을 마커로 표시해 준다. 마커는 난폭 운전의 종류와 발생한 시간을 보여준다. 모든 배달 기사의 난폭 운전 이력을 조회하여 현재 위치를 기준으로 주변에 난폭 운전이 많이 발생되었으면 오른쪽 상단에 경고 표시를 준다.
+  4. 설정 화면: 사용자의 이름과 등급이 표시되며 등급은 난폭 운전의 데이터로 측정이 된다. 등급은 '안전', '주의', '경고' 3단계로 표시된다.
+
   
 ## Conclusion
   - ### 배달 오토바이의 난폭 운전 예방 및 안전운전 촉진
